@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Career Form – AI Career Counselor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="static/css/styles.css">
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1f4287, #267871);
+      color: #fff;
+    }
+    header.navbar {
+      padding: 0 18px;
+      height: 44px;
+      min-height: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0, 33, 64, 0.85);
+      box-shadow: 0 2px 12px rgba(30,40,56,0.04);
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      z-index: 15;
+    }
+    .logo-container {
+      padding: 1px 6px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      box-shadow: 0 0 6px rgba(0,50,100,0.12);
+    }
+    .logo {
+      height: 24px;
+      width: auto;
+      vertical-align: middle;
+      display: block;
+    }
+    nav {
+      display: flex;
+      gap: 20px;
+    }
+    nav a {
+      font-size: 0.95rem;
+      margin: 0 8px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+    }
+    #userName {
+      margin-left: 12px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #fff;
+    }
+    .form-container {
+      max-width: 700px;
+      margin: 80px auto 0 auto;
+      background: rgba(255,255,255,0.08);
+      border-radius: 18px;
+      padding: 40px 32px;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+      text-align: center;
+    }
+    h2 {
+      font-size: 2.2rem;
+      font-weight: 900;
+      margin-bottom: 18px;
+      text-shadow: 1px 1px 12px rgba(0,0,0,0.18);
+      color: #fff;
+    }
+    .form-group {
+      margin-bottom: 22px;
+      text-align: left;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 7px;
+      color: #fff;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 10px 12px;
+      border-radius: 7px;
+      border: none;
+      font-size: 1rem;
+      margin-bottom: 2px;
+      background: rgba(255,255,255,0.18);
+      color: #003366;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    input[type="checkbox"] {
+      margin-right: 8px;
+      transform: scale(1.2);
+    }
+    .cta-button {
+      background: #267871;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 14px 36px;
+      font-size: 1.2rem;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.10);
+      transition: background 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 18px;
+    }
+    .cta-button:hover {
+      background: #1f4287;
+      color: #ffd700;
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo-container">
+      <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo" class="logo" />
+    </div>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/form">Form</a>
+      <a href="/roadmap">Career Roadmap</a>
+    </nav>
+    <span id="userName" style="margin-left:16px; font-weight:600; font-size:1rem;"></span>
+  </header>
+
+  <main class="form-container">
+    <h2>📝 Detailed Career & Resume Form</h2>
+    <form method="POST" action="/predict">
+      <!-- Personal & Academic Information -->
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" name="name" required />
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" name="email" required />
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="text" name="phone" required />
+      </div>
+      <div class="form-group">
+        <label>Location</label>
+        <input type="text" name="location" required />
+      </div>
+      <div class="form-group">
+        <label>School Name (10th)</label>
+        <input type="text" name="school_10" required />
+      </div>
+      <div class="form-group">
+        <label>College Name (12th/Intermediate)</label>
+        <input type="text" name="college_12" required />
+      </div>
+      <div class="form-group">
+        <label>Graduation College/University</label>
+        <input type="text" name="grad_college" required />
+      </div>
+      <div class="form-group">
+        <label>Postgraduation College/University (if any)</label>
+        <input type="text" name="pg_college" />
+      </div>
+      <div class="form-group">
+        <label>Career Objective</label>
+        <textarea name="career_objective" rows="3" required></textarea>
+      </div>
+      <!-- Academics -->
+      <div class="form-group">
+        <label>B.Tech CGPA</label>
+        <input type="number" name="cgpa" step="0.01" min="4" max="10" required />
+      </div>
+      <div class="form-group">
+        <label>12th Percentage</label>
+        <input type="number" name="marks_12" step="1" min="0" max="100" required />
+      </div>
+      <div class="form-group">
+        <label>10th Percentage</label>
+        <input type="number" name="marks_10" step="1" min="0" max="100" required />
+      </div>
+      <div class="form-group">
+        <label>Education Level</label>
+        <select name="education">
+          <option value="Bachelor">Bachelor</option>
+          <option value="Master">Master</option>
+          <option value="PhD">PhD</option>
+        </select>
+      </div>
+      <!-- Projects -->
+      <div class="form-group">
+        <label>Project Title 1</label>
+        <input type="text" name="project_title_1" />
+        <label>Project Details 1</label>
+        <textarea name="project_details_1" rows="2"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Project Title 2</label>
+        <input type="text" name="project_title_2" />
+        <label>Project Details 2</label>
+        <textarea name="project_details_2" rows="2"></textarea>
+      </div>
+      <!-- Internships -->
+      <div class="form-group">
+        <label>Internship 1 (Company/Organization)</label>
+        <input type="text" name="internship_1" />
+        <label>Internship Role/Duration</label>
+        <input type="text" name="internship_1_details" />
+      </div>
+      <div class="form-group">
+        <label>Internship 2 (Company/Organization)</label>
+        <input type="text" name="internship_2" />
+        <label>Internship Role/Duration</label>
+        <input type="text" name="internship_2_details" />
+      </div>
+      <!-- Skills and Extras -->
+      <div class="form-group">
+        <label>Technical Skills (comma separated)</label>
+        <input type="text" name="skills" placeholder="Python, SQL, Data Analysis" />
+      </div>
+      <div class="form-group">
+        <label>Non-Technical Skills (comma separated)</label>
+        <input type="text" name="non_technical" placeholder="Communication, Leadership" />
+      </div>
+      <div class="form-group">
+        <label>Interests (comma separated)</label>
+        <input type="text" name="interests" placeholder="Coding, Design, Research" />
+      </div>
+      <div class="form-group">
+        <label>Preferred Work Type</label>
+        <select name="work_type">
+          <option>Remote</option>
+          <option>Onsite</option>
+          <option>Hybrid</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Generate Resume?</label>
+        <input type="checkbox" name="generate_resume" />
+      </div>
+      <button type="submit" class="cta-button">🔍 Get Career Suggestion</button>
+    </form>
+  </main>
+</body>
+</html>
